@@ -1,11 +1,10 @@
-package io.test;
+package io.text;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
-import static io.test.TextConst.FILE_NAME;
+import static io.text.TextConst.FILE_NAME;
 import static java.nio.charset.StandardCharsets.*;
 
 public class ReaderWriterMainV3 {

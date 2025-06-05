@@ -1,9 +1,8 @@
-package io.test;
+package io.text;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 
-import static io.test.TextConst.*;
+import static io.text.TextConst.*;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class ReaderWriterMainV2 {
