@@ -3,7 +3,6 @@ package io.file;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.SQLOutput;
 
 public class OldFileMain {
 
