@@ -1,11 +1,11 @@
-package network.tcp.v6;
+package network.tcp.test;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import static network.tcp.SocketCloseUtil.*;
+import static network.tcp.SocketCloseUtil.closeAll;
 import static util.MyLogger.log;
 
 public class SessionV6 implements Runnable{
@@ -39,9 +39,7 @@ public class SessionV6 implements Runnable{
                 }
 
                 // 클라이언트에게 문자 보내기
-                String toSend = received + " World!";
-                output.writeUTF(toSend);
-                log("client <- server: " + toSend);
+                sessionManager.sendAll(received);
             }
             log("연결 종료: " + socket);
         } catch (IOException e) {
@@ -61,5 +59,10 @@ public class SessionV6 implements Runnable{
         closeAll(socket, input, output);
         closed = true;
         log("연결 종료: " + socket );
+    }
+
+    public void send(String toSend) throws IOException {
+        log("sever -> client: " + toSend);
+        output.writeUTF(toSend);
     }
 }

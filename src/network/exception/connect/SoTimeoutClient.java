@@ -11,7 +11,7 @@ public class SoTimeoutClient {
         InputStream input = socket.getInputStream();
 
         try {
-            socket.setSoTimeout(3000); // 타임아웃 시간 설
+            socket.setSoTimeout(3000); // 타임아웃 시간 설정
             int read = input.read();
             System.out.println("read = " + read);
         } catch (Exception e) {

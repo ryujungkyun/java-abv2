@@ -15,7 +15,7 @@ public class StreamStartMain3 {
 
         FileInputStream fis = new FileInputStream("temp/hello.dat");
         byte[] buffer = new byte[10];
-        //int readCount = fis.read(buffer); 깉은거다 파라미터에 배열만 넣으면 offset은 0 ,buffer.length 만큼 가져온다.
+        //int readCount = fis.read(buffer); 같은거다 파라미터에 배열만 넣으면 offset은 0 ,buffer.length 만큼 가져온다.
         int readCount = fis.read(buffer, 0, 10);
         System.out.println("readCount = " + readCount);
         System.out.println(Arrays.toString(buffer));
