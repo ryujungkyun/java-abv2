@@ -18,7 +18,6 @@ public class ReadHandler implements Runnable{
 
     @Override
     public void run() {
-        while (true) {
             try {
                 while (true) {
                     String received = input.readUTF();
@@ -28,7 +27,6 @@ public class ReadHandler implements Runnable{
                 log(e);
             }finally {
                 client.close();
-            }
         }
     }
 
