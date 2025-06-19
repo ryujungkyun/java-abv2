@@ -87,7 +87,7 @@ public class HttpRequestHandlerV3 implements Runnable{
     }
 
     private void notFound(PrintWriter writer) {
-        writer.println("HTTP/1.1 404 OK");
+        writer.println("HTTP/1.1 404 Not Found");
         writer.println("Content-Type: text/html; charset=UTF-8");
         writer.println();
         writer.println("<h1>404 페이지를 찾을 수 없습니다.</h1>");
@@ -102,7 +102,7 @@ public class HttpRequestHandlerV3 implements Runnable{
         String query = requestString.substring(startIndex + 2, endIndex);
         String decode = URLDecoder.decode(query, UTF_8);
 
-        writer.println("HTTP/1.1 404 OK");
+        writer.println("HTTP/1.1 200 OK");
         writer.println("Content-Type: text/html; charset=UTF-8");
         writer.println();
         writer.println("<h1>Search</h1>");

@@ -28,7 +28,7 @@ public class HttpRequestHandlerV2 implements Runnable{
     private void process() throws IOException {
         try (socket;
              BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), UTF_8))) {
-            PrintWriter writer = new PrintWriter(socket.getOutputStream(), false, UTF_8);
+             PrintWriter writer = new PrintWriter(socket.getOutputStream(), false, UTF_8);
 
             String requestString = requestToString(reader);
             if (requestString.contains("/favicon.ico")) {
