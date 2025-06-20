@@ -1,4 +1,4 @@
-package annotation;
+package annotation.mapping;
 
 public class TestController {
 
