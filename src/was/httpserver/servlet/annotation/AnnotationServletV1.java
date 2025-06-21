@@ -1,4 +1,4 @@
-package was.httpserver.reflection;
+package was.httpserver.servlet.annotation;
 
 import was.httpserver.HttpRequest;
 import was.httpserver.HttpResponse;
@@ -10,34 +10,29 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public class ReflectionServlet implements HttpServlet {
-
+public class AnnotationServletV1 implements HttpServlet {
     private final List<Object> controllers;
 
-    public ReflectionServlet(List<Object> controllers) {
+    public AnnotationServletV1(List<Object> controllers) {
         this.controllers = controllers;
     }
-
 
     @Override
     public void service(HttpRequest request, HttpResponse response) throws IOException {
         String path = request.getPath();
 
-        // SiteControllerV6, SearchControllerV6
         for (Object controller : controllers) {
-            // SiteControllerV6
-            Class<?> aClass = controller.getClass();
-            Method[] methods = aClass.getDeclaredMethods();
-            //site1 site2
+            Method[] methods = controller.getClass().getDeclaredMethods();
             for (Method method : methods) {
-                String methodName = method.getName();
-                if (path.equals("/" + methodName)) { //site1.equals(/site1)
+                Mapping mapping = method.getAnnotation(Mapping.class);
+                String value = mapping.value();
+                if (value.equals(path)) {
                     invoke(controller, method, request, response);
                     return;
                 }
             }
         }
-        throw new PageNotFoundException("request = " + path);
+        throw new PageNotFoundException("request=" + path);
     }
 
     private static void invoke(Object controller, Method method, HttpRequest request, HttpResponse response) {

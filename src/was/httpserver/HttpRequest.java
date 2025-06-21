@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.*;
+import static util.MyLogger.log;
 
 public class HttpRequest {
 
@@ -19,11 +20,12 @@ public class HttpRequest {
     public HttpRequest(BufferedReader reader) throws IOException {
         parseRequestLine(reader);
         parseHeader(reader);
-        // 메시지 바디는 이후에 처리
+        parseBody(reader); // cnrk
     }
 
     // GET /search?q=hello HTTP/1.1
     // Host: localhost:12345
+
     private void parseRequestLine(BufferedReader reader) throws IOException {
         String requestLine = reader.readLine();
         if (requestLine == null) {
@@ -44,7 +46,6 @@ public class HttpRequest {
             parseQueryParameters(pathParts[1]);
         }
     }
-
     private void parseQueryParameters(String queryString) {
         for (String param : queryString.split("&")) {
             String[] keyValue = param.split("=");
@@ -59,6 +60,7 @@ public class HttpRequest {
     // Connection: keep-alice
     // Cache-Control: max-age=0
     //
+
     private void parseHeader(BufferedReader reader) throws IOException {
         String line;
         while (!(line = reader.readLine()).isEmpty()) {
@@ -66,6 +68,29 @@ public class HttpRequest {
             //문자에서 양쪽 방향 공백제거
             headers.put(headerParts[0].trim(), headerParts[1].trim());
         }
+    }
+
+    //추가
+    private void parseBody(BufferedReader reader) throws IOException {
+        if (!headers.containsKey("Content-Length")) {
+            return;
+        }
+
+        int contentLength = Integer.parseInt(headers.get("Content-Length"));
+        char[] bodyChars = new char[contentLength];
+        int read = reader.read(bodyChars);
+        if (read != contentLength) {
+            throw new IOException("Fail to read entire body. Expected " + contentLength + " bytes, byt read " + read);
+        }
+        String body = new String(bodyChars);
+        log("HTTP Message Body: " + body);
+
+        String contentType = headers.get("Content-Type");
+        if ("application/x-www-form-urlencoded".equals(contentType)) {
+            //id=id1&name=name1&age=20
+            parseQueryParameters(body);
+        }
+
     }
 
     public String getMethod() {
